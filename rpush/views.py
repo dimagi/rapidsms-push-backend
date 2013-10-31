@@ -34,9 +34,11 @@ class PushBackendView(BaseHttpBackendView):
         if self.request.method in ('POST', 'PUT'):
             needed_keys = ['MobileNumber', 'Text']
             post_args = []
+
             for element in xml:
                 if element.attrib['name'] in needed_keys:
-                    post_args.append(element.attrib['name'] + '=' + element.text)
+                    value = element.text or ''
+                    post_args.append(element.attrib['name'] + '=' + value)
 
             kwargs['data'] = QueryDict('&'.join(post_args))
 
